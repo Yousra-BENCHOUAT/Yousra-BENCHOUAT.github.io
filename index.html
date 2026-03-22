@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yousra Benchouat — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #050a12;
+  --bg2: #080f1a;
+  --bg3: #0d1826;
+  --neon: #00d4ff;
+  --neon2: #0099cc;
+  --neon3: #005f82;
+  --white: #e8f4f8;
+  --gray: #6b8a9a;
+  --gray2: #3a5060;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background: var(--bg);
+  color: var(--white);
+  overflow-x: hidden;
+}
+
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+.orb-1 { width:400px;height:400px;background:rgba(0,212,255,0.06);top:-100px;right:-100px; }
+.orb-2 { width:300px;height:300px;background:rgba(0,153,204,0.04);bottom:20%;left:-50px; }
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; width: 100%;
+  z-index: 100;
+  padding: 1.2rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0,212,255,0.08);
+  background: rgba(5,10,18,0.9);
+  backdrop-filter: blur(20px);
+}
+
+.nav-logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--neon);
+  letter-spacing: 2px;
+}
+.nav-logo span { color: var(--gray); }
+
+.nav-links { display:flex;gap:2.5rem;list-style:none; }
+.nav-links a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--gray);
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--neon); }
+
+.nav-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--gray);
+}
+
+.status-dot {
+  width: 6px; height: 6px;
+  background: #00ff88;
+  border-radius: 50%;
+  animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+  0%,100% { box-shadow: 0 0 0 0 rgba(0,255,136,0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(0,255,136,0); }
+}
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 7rem 3rem 4rem;
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 4rem;
+}
+
+.hero-left { flex: 1; }
+
+.hero-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--neon);
+  letter-spacing: 3px;
+  margin-bottom: 1.5rem;
+  display: block;
+  opacity: 0;
+  animation: slideIn 0.8s ease 0.2s forwards;
+}
+.hero-tag::before { content: '> '; }
+
+.hero h1 {
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  margin-bottom: 0.5rem;
+  opacity: 0;
+  animation: slideIn 0.8s ease 0.4s forwards;
+  letter-spacing: -2px;
+}
+
+.name-first { color: var(--white); display:block; }
+.name-last {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--neon);
+  display: block;
+  text-shadow: 0 0 40px rgba(0,212,255,0.3);
+}
+
+.hero-title-line {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--gray);
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: slideIn 0.8s ease 0.6s forwards;
+}
+.hero-title-line span { color: var(--neon); }
+
+.hero-desc {
+  font-size: 1rem;
+  color: var(--gray);
+  line-height: 1.8;
+  max-width: 480px;
+  margin-bottom: 3rem;
+  opacity: 0;
+  animation: slideIn 0.8s ease 0.8s forwards;
+  font-weight: 300;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: slideIn 0.8s ease 1s forwards;
+}
+
+.btn-neon {
+  background: transparent;
+  border: 1px solid var(--neon);
+  color: var(--neon);
+  padding: 12px 28px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.3s;
+  display: inline-block;
+}
+.btn-neon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--neon);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: -1;
+}
+.btn-neon:hover { color: var(--bg); }
+.btn-neon:hover::before { transform: translateX(0); }
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--gray2);
+  color: var(--gray);
+  padding: 12px 28px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  text-decoration: none;
+  transition: all 0.3s;
+  display: inline-block;
+}
+.btn-ghost:hover { border-color: var(--neon); color: var(--white); }
+
+.hero-right {
+  flex: 0 0 380px;
+  height: 380px;
+  opacity: 0;
+  animation: fadeIn 1s ease 1.2s forwards;
+}
+.hero-right svg { width:100%;height:100%; }
+
+/* SECTIONS */
+.section {
+  position: relative;
+  z-index: 2;
+  padding: 6rem 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-header { margin-bottom: 4rem; }
+
+.section-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--neon);
+  letter-spacing: 3px;
+  margin-bottom: 0.5rem;
+}
+
+.section-title {
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: var(--white);
+  position: relative;
+  display: inline-block;
+}
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px; left: 0;
+  width: 40px; height: 2px;
+  background: var(--neon);
+  box-shadow: 0 0 10px var(--neon);
+}
+
+/* ABOUT */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+.about-text p {
+  color: var(--gray);
+  line-height: 1.9;
+  margin-bottom: 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 300;
+}
+.about-text p strong { color: var(--white); font-weight: 500; }
+
+.about-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.stat-box {
+  border: 1px solid var(--gray2);
+  padding: 1.5rem;
+  position: relative;
+  transition: border-color 0.3s;
+}
+.stat-box::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: 0;
+  width: 30px; height: 2px;
+  background: var(--neon);
+  box-shadow: 0 0 8px var(--neon);
+}
+.stat-box:hover { border-color: var(--neon3); }
+
+.stat-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 2.2rem;
+  color: var(--neon);
+  font-weight: 500;
+  text-shadow: 0 0 20px rgba(0,212,255,0.5);
+}
+.stat-lbl { font-size: 0.75rem; color: var(--gray); margin-top: 4px; }
+
+/* SKILLS */
+.skills-section {
+  background: var(--bg2);
+  border-top: 1px solid rgba(0,212,255,0.08);
+  border-bottom: 1px solid rgba(0,212,255,0.08);
+  position: relative;
+  z-index: 2;
+}
+
+.skills-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 6rem 3rem;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.skill-card {
+  border: 1px solid var(--gray2);
+  padding: 1.5rem;
+  background: var(--bg3);
+  transition: all 0.3s;
+}
+.skill-card:hover {
+  border-color: var(--neon3);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0,212,255,0.08);
+}
+
+.skill-card-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--neon);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--gray2);
+}
+
+.skill-tags { display:flex;flex-wrap:wrap;gap:0.4rem; }
+
+.skill-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--gray);
+  background: rgba(0,212,255,0.05);
+  border: 1px solid var(--gray2);
+  padding: 3px 8px;
+  transition: all 0.2s;
+}
+.skill-tag:hover { color: var(--neon); border-color: var(--neon3); }
+
+/* PROJECTS */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 1.5rem;
+}
+
+.project-card {
+  border: 1px solid var(--gray2);
+  background: var(--bg2);
+  padding: 2rem;
+  position: relative;
+  transition: all 0.3s;
+  overflow: hidden;
+}
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--neon), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.project-card:hover {
+  border-color: var(--neon3);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(0,212,255,0.08);
+}
+.project-card:hover::before { opacity: 1; }
+
+.project-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--neon);
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+}
+
+.project-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.project-desc {
+  font-size: 0.85rem;
+  color: var(--gray);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+  font-weight: 300;
+}
+
+.project-stack { display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:1.5rem; }
+
+.stack-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--neon2);
+  background: rgba(0,212,255,0.08);
+  border: 1px solid rgba(0,212,255,0.2);
+  padding: 2px 8px;
+}
+
+.project-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--gray);
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.project-link:hover { color: var(--neon); }
+.project-link::after { content: '->'; transition: transform 0.2s; }
+.project-link:hover::after { transform: translateX(4px); }
+
+/* CONTACT */
+.contact-section {
+  background: var(--bg2);
+  border-top: 1px solid rgba(0,212,255,0.08);
+  position: relative;
+  z-index: 2;
+}
+
+.contact-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 6rem 3rem;
+  text-align: center;
+}
+
+.contact-title {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -1px;
+  margin-bottom: 1rem;
+}
+.contact-title span {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--neon);
+  text-shadow: 0 0 40px rgba(0,212,255,0.3);
+}
+
+.contact-sub {
+  color: var(--gray);
+  font-size: 0.85rem;
+  margin-bottom: 3rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.contact-links { display:flex;gap:1rem;justify-content:center;flex-wrap:wrap; }
+
+.contact-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  padding: 14px 32px;
+  text-decoration: none;
+  border: 1px solid var(--gray2);
+  color: var(--gray);
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.contact-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--neon);
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  z-index: -1;
+}
+.contact-btn:hover { color: var(--bg); border-color: var(--neon); }
+.contact-btn:hover::before { transform: translateY(0); }
+
+footer {
+  position: relative;
+  z-index: 2;
+  background: var(--bg);
+  border-top: 1px solid rgba(0,212,255,0.06);
+  padding: 1.5rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+footer p {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--gray2);
+  letter-spacing: 1px;
+}
+
+@keyframes slideIn {
+  from { opacity:0; transform:translateY(30px); }
+  to { opacity:1; transform:translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity:0; }
+  to { opacity:1; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 1rem; }
+  .nav-links { display:none; }
+  .nav-status { display:none; }
+  .hero { flex-direction:column;padding:5rem 1.5rem 3rem;gap:2rem; }
+  .hero-right { display:none; }
+  .section { padding:4rem 1.5rem; }
+  .about-grid { grid-template-columns:1fr;gap:3rem; }
+  .skills-inner { padding:4rem 1.5rem; }
+  .contact-inner { padding:4rem 1.5rem; }
+  footer { flex-direction:column;gap:0.5rem;padding:1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">YB<span>.dev</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">about</a></li>
+    <li><a href="#competences">skills</a></li>
+    <li><a href="#projets">projects</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+  <div class="nav-status">
+    <div class="status-dot"></div>
+    disponible pour stage
+  </div>
+</nav>
+
+<!-- HERO -->
+<div style="position:relative;z-index:2;">
+  <div class="hero">
+    <div class="hero-left">
+      <span class="hero-tag">etudiante ingenieure · oujda, maroc</span>
+      <h1>
+        <span class="name-first">Yousra</span>
+        <span class="name-last">Benchouat</span>
+      </h1>
+      <p class="hero-title-line">
+        <span>.NET</span> · DevOps &amp; Cloud · <span>Network Security</span> · AI
+      </p>
+      <p class="hero-desc">
+        Double profil developpement et infrastructure. Je construis des systemes
+        robustes, des pipelines automatises et des infrastructures cloud.
+      </p>
+      <div class="hero-buttons">
+        <a href="#projets" class="btn-neon">voir mes projets</a>
+        <a href="https://github.com/Yousra-BENCHOUAT" target="_blank" class="btn-ghost">github</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <svg viewBox="0 0 380 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="76" x2="380" y2="76" stroke="rgba(0,212,255,0.07)" stroke-width="1"/>
+        <line x1="0" y1="152" x2="380" y2="152" stroke="rgba(0,212,255,0.07)" stroke-width="1"/>
+        <line x1="0" y1="228" x2="380" y2="228" stroke="rgba(0,212,255,0.07)" stroke-width="1"/>
+        <line x1="0" y1="304" x2="380" y2="304" stroke="rgba(0,212,255,0.07)" stroke-width="1"/>
+        <line x1="76" y1="0" x2="76" y2="380" stroke="rgba(0,212,255,0.07)" stroke-width="1"/>
+        <line x1="152" y1="0" x2="152" y2="380" stroke="rgba(0,212,255,0.07)" stroke-width="1"/>
+        <line x1="228" y1="0" x2="228" y2="380" stroke="rgba(0,212,255,0.07)" stroke-width="1"/>
+        <line x1="304" y1="0" x2="304" y2="380" stroke="rgba(0,212,255,0.07)" stroke-width="1"/>
+        <polygon points="190,55 247,88 247,154 190,187 133,154 133,88" fill="rgba(0,212,255,0.04)" stroke="rgba(0,212,255,0.25)" stroke-width="1"/>
+        <polygon points="190,82 235,107 235,157 190,182 145,157 145,107" fill="rgba(0,212,255,0.06)" stroke="rgba(0,212,255,0.45)" stroke-width="1"/>
+        <circle cx="190" cy="130" r="5" fill="#00d4ff" opacity="0.9">
+          <animate attributeName="opacity" values="0.9;0.3;0.9" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="190" cy="130" r="12" fill="none" stroke="#00d4ff" stroke-width="0.5" opacity="0.3">
+          <animate attributeName="r" values="12;22;12" dur="2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <line x1="190" y1="130" x2="76" y2="228" stroke="rgba(0,212,255,0.18)" stroke-width="0.5" stroke-dasharray="4,4"/>
+        <line x1="190" y1="130" x2="304" y2="266" stroke="rgba(0,212,255,0.18)" stroke-width="0.5" stroke-dasharray="4,4"/>
+        <line x1="190" y1="130" x2="114" y2="304" stroke="rgba(0,212,255,0.12)" stroke-width="0.5" stroke-dasharray="4,4"/>
+        <line x1="190" y1="130" x2="323" y2="152" stroke="rgba(0,212,255,0.12)" stroke-width="0.5" stroke-dasharray="4,4"/>
+        <circle cx="76" cy="228" r="4" fill="rgba(0,212,255,0.6)" stroke="#00d4ff" stroke-width="1"/>
+        <circle cx="304" cy="266" r="4" fill="rgba(0,212,255,0.4)" stroke="#00d4ff" stroke-width="1"/>
+        <circle cx="114" cy="304" r="3" fill="rgba(0,212,255,0.3)" stroke="#00d4ff" stroke-width="0.5"/>
+        <circle cx="323" cy="152" r="3" fill="rgba(0,212,255,0.3)" stroke="#00d4ff" stroke-width="0.5"/>
+        <text x="40" y="242" font-family="JetBrains Mono" font-size="8" fill="rgba(0,212,255,0.6)">CLOUD</text>
+        <text x="308" y="280" font-family="JetBrains Mono" font-size="8" fill="rgba(0,212,255,0.5)">DEVOPS</text>
+        <text x="78" y="318" font-family="JetBrains Mono" font-size="8" fill="rgba(0,212,255,0.4)">SECURITY</text>
+        <text x="295" y="146" font-family="JetBrains Mono" font-size="8" fill="rgba(0,212,255,0.4)">.NET</text>
+        <rect x="50" y="325" width="280" height="36" rx="2" fill="rgba(0,212,255,0.03)" stroke="rgba(0,212,255,0.15)" stroke-width="0.5"/>
+        <text x="62" y="348" font-family="JetBrains Mono" font-size="7" fill="rgba(0,212,255,0.5)">$ terraform apply --auto-approve</text>
+        <rect x="50" y="325" width="0" height="2" fill="#00d4ff" opacity="0.7">
+          <animate attributeName="width" values="0;280;280;0" dur="4s" repeatCount="indefinite"/>
+        </rect>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="section-header">
+    <div class="section-num">// 01</div>
+    <h2 class="section-title">A propos</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>Etudiante ingenieure en <strong>4eme annee a l'EHEI Oujda</strong>, avec un double background en genie informatique et en infrastructure reseaux et systemes.</p>
+      <p>Je combine des competences en <strong>developpement .NET et Python</strong>, cloud Azure et AWS, containerisation Docker, et intelligence artificielle. En parallele j'ai une solide base en administration systemes Linux et Windows Server, en networking et en securite reseau.</p>
+      <p>Ce qui me distingue c'est cette <strong>double culture dev et infrastructure</strong> qui me permet de comprendre aussi bien le code que l'environnement dans lequel il tourne.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-box"><div class="stat-num">03</div><div class="stat-lbl">projets cloud</div></div>
+      <div class="stat-box"><div class="stat-num">02</div><div class="stat-lbl">stages</div></div>
+      <div class="stat-box"><div class="stat-num">4A</div><div class="stat-lbl">annee d'etudes</div></div>
+      <div class="stat-box"><div class="stat-num">2+</div><div class="stat-lbl">certifications</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPETENCES -->
+<div class="skills-section" id="competences">
+  <div class="skills-inner">
+    <div class="section-header">
+      <div class="section-num">// 02</div>
+      <h2 class="section-title">Competences</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-card-title">Cloud &amp; DevOps</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Azure</span>
+          <span class="skill-tag">AWS</span>
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">Kubernetes</span>
+          <span class="skill-tag">Terraform</span>
+          <span class="skill-tag">Ansible</span>
+          <span class="skill-tag">GitHub Actions</span>
+          <span class="skill-tag">CI/CD</span>
+          <span class="skill-tag">GitLab</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-title">Developpement</div>
+        <div class="skill-tags">
+          <span class="skill-tag">ASP.NET Core</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">FastAPI</span>
+          <span class="skill-tag">Angular</span>
+          <span class="skill-tag">REST API</span>
+          <span class="skill-tag">Microservices</span>
+          <span class="skill-tag">JWT</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-title">Systemes &amp; Reseau</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Linux</span>
+          <span class="skill-tag">Windows Server</span>
+          <span class="skill-tag">Shell Script</span>
+          <span class="skill-tag">PowerShell</span>
+          <span class="skill-tag">Active Directory</span>
+          <span class="skill-tag">OSPF / RIP</span>
+          <span class="skill-tag">VLAN / ACL</span>
+          <span class="skill-tag">DNS / DHCP</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-title">Securite &amp; Monitoring</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Suricata</span>
+          <span class="skill-tag">Firewall</span>
+          <span class="skill-tag">SSH / VPN</span>
+          <span class="skill-tag">Prometheus</span>
+          <span class="skill-tag">Grafana</span>
+          <span class="skill-tag">Trivy</span>
+          <span class="skill-tag">Bandit</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-title">Intelligence Artificielle</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Machine Learning</span>
+          <span class="skill-tag">Scikit-learn</span>
+          <span class="skill-tag">Classification</span>
+          <span class="skill-tag">Regression</span>
+          <span class="skill-tag">Pandas</span>
+          <span class="skill-tag">NumPy</span>
+          <span class="skill-tag">Matplotlib</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJETS -->
+<section class="section" id="projets">
+  <div class="section-header">
+    <div class="section-num">// 03</div>
+    <h2 class="section-title">Projets</h2>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-num">PROJECT_01</div>
+      <h3 class="project-title">Red Team / Blue Team Lab sur Azure</h3>
+      <p class="project-desc">Laboratoire de cybersecurite deploye sur Azure simulant des attaques reelles avec Kali Linux et leur detection en temps reel via Suricata, Loki et Grafana.</p>
+      <div class="project-stack">
+        <span class="stack-tag">Azure</span>
+        <span class="stack-tag">Suricata</span>
+        <span class="stack-tag">Kali Linux</span>
+        <span class="stack-tag">Grafana</span>
+        <span class="stack-tag">Loki</span>
+        <span class="stack-tag">Nmap</span>
+        <span class="stack-tag">Hydra</span>
+      </div>
+      <a href="https://github.com/Yousra-BENCHOUAT/redblue-lab" target="_blank" class="project-link">voir sur github</a>
+    </div>
+    <div class="project-card">
+      <div class="project-num">PROJECT_02</div>
+      <h3 class="project-title">Pipeline CI/CD sur Azure Kubernetes</h3>
+      <p class="project-desc">Pipeline CI/CD complet avec GitHub Actions, scan de securite avec Bandit et Trivy, deploiement sur Kubernetes AKS et monitoring avec Prometheus et Grafana.</p>
+      <div class="project-stack">
+        <span class="stack-tag">Docker</span>
+        <span class="stack-tag">Kubernetes</span>
+        <span class="stack-tag">GitHub Actions</span>
+        <span class="stack-tag">Azure</span>
+        <span class="stack-tag">FastAPI</span>
+        <span class="stack-tag">Trivy</span>
+        <span class="stack-tag">Prometheus</span>
+      </div>
+      <a href="https://github.com/Yousra-BENCHOUAT/python-api-pipeline" target="_blank" class="project-link">voir sur github</a>
+    </div>
+    <div class="project-card">
+      <div class="project-num">PROJECT_03</div>
+      <h3 class="project-title">Infrastructure AWS avec Terraform et Ansible</h3>
+      <p class="project-desc">Infrastructure complete sur AWS deployee avec Terraform et configuree automatiquement avec des Playbooks Ansible via SSH. Monitoring en temps reel avec Prometheus et Grafana.</p>
+      <div class="project-stack">
+        <span class="stack-tag">Terraform</span>
+        <span class="stack-tag">Ansible</span>
+        <span class="stack-tag">AWS EC2</span>
+        <span class="stack-tag">Docker</span>
+        <span class="stack-tag">Prometheus</span>
+        <span class="stack-tag">Grafana</span>
+        <span class="stack-tag">SSH</span>
+      </div>
+      <a href="https://github.com/Yousra-BENCHOUAT/aws-infrastructure" target="_blank" class="project-link">voir sur github</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<div class="contact-section" id="contact">
+  <div class="contact-inner">
+    <div class="section-num" style="text-align:center;margin-bottom:0.5rem;">// 04</div>
+    <h2 class="contact-title"><span>Contact</span></h2>
+    <div class="contact-links">
+      <a href="https://www.linkedin.com/in/yousra-benchouat-34827b245/" target="_blank" class="contact-btn">linkedin</a>
+      <a href="https://github.com/Yousra-BENCHOUAT" target="_blank" class="contact-btn">github</a>
+      <a href="mailto:benchouatyousra@gmail.com" class="contact-btn">email</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>2026 Yousra Benchouat</p>
+  <p>EHEI Oujda · Maroc</p>
+</footer>
+
+<script>
+// Simple hover effect on cards
+document.querySelectorAll('.project-card, .skill-card, .stat-box').forEach(el => {
+  el.addEventListener('mouseenter', () => el.style.transition = 'all 0.3s');
+});
+</script>
+
+</body>
+</html>
